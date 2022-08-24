@@ -17,4 +17,9 @@ class Ability extends Model
         'slot'
     ];
 
+    public function pokemon()
+    {
+        return $this->belongsTo(Pokemon::class);
+    }
+
 }

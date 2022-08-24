@@ -21,4 +21,10 @@ class Sprite extends Model
         'back_shiny',
         'back_shiny_female'
     ];
+
+    public function pokemon()
+    {
+        return $this->belongsTo(Pokemon::class);
+    }
+    
 }

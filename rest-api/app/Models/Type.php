@@ -15,4 +15,10 @@ class Type extends Model
         'type',
         'slot'
     ];
+
+    public function pokemon()
+    {
+        return $this->belongsTo(Pokemon::class);
+    }
+
 }

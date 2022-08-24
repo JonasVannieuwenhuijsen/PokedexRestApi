@@ -38,7 +38,12 @@ class Pokemon extends Model
 
     public function moves()
     {
-        return $this->hasMany(Type::class);
+        return $this->hasMany(Move::class);
+    }
+
+    public function stats()
+    {
+        return $this->hasMany(Stat::class);
     }
 
 }

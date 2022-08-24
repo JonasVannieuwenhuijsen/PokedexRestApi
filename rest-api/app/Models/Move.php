@@ -20,5 +20,8 @@ class Move extends Model
         return $this->hasMany(Version_group_detail::class);
     }
 
-
+    public function pokemon()
+    {
+        return $this->belongsTo(Pokemon::class);
+    }
 }

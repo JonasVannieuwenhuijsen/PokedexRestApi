@@ -16,4 +16,10 @@ class Stat extends Model
         'base_stat',
         'effort'
     ];
+
+    public function pokemon()
+    {
+        return $this->belongsTo(Pokemon::class);
+    }
+    
 }

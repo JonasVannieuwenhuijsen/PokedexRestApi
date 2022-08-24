@@ -16,4 +16,10 @@ class Version_group_detail extends Model
         'version_group',
         'level_learned_at'
     ];
+
+    public function pokemon()
+    {
+        return $this->belongsTo(Move::class);
+    }
+
 }
