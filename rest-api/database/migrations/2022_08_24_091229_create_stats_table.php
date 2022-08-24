@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('stat');
             $table->decimal('base_stat');
             $table->decimal('effort');
+            $table->integer('pokemon_id');
             $table->timestamps();
         });
     }

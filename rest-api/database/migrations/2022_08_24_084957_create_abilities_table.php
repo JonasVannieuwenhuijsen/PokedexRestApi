@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('ability');
             $table->boolean('is_hidden');
             $table->decimal('slot');
+            $table->integer('pokemon_id');
             $table->timestamps();
         });
     }

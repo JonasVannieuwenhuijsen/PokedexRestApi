@@ -15,14 +15,15 @@ return new class extends Migration
     {
         Schema::create('sprites', function (Blueprint $table) {
             $table->id();
-            $table->string('front_default');
-            $table->string('front_female');
-            $table->string('front_shiny');
-            $table->string('front_shiny_female');
-            $table->string('back_default');
-            $table->string('back_female');
-            $table->string('back_shiny');
-            $table->string('back_shiny_female');
+            $table->string('front_default')->nullable();
+            $table->string('front_female')->nullable();
+            $table->string('front_shiny')->nullable();
+            $table->string('front_shiny_female')->nullable();
+            $table->string('back_default')->nullable();
+            $table->string('back_female')->nullable();
+            $table->string('back_shiny')->nullable();
+            $table->string('back_shiny_female')->nullable();
+            $table->integer('pokemon_id');
             $table->timestamps();
         });
     }

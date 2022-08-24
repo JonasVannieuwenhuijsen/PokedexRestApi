@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('moves', function (Blueprint $table) {
             $table->id();
             $table->string('move');
+            $table->integer('pokemon_id');
             $table->timestamps();
         });
     }

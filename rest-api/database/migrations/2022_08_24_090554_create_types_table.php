@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->decimal('slot');
+            $table->integer('pokemon_id');
             $table->timestamps();
         });
     }

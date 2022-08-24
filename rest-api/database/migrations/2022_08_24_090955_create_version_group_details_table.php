@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('move_learn_method');
             $table->string('version_group');
             $table->decimal('level_learned_at');
+            $table->integer('move_id');
             $table->timestamps();
         });
     }
