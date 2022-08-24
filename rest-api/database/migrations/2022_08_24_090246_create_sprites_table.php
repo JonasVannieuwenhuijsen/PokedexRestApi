@@ -13,11 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('abilities', function (Blueprint $table) {
+        Schema::create('sprites', function (Blueprint $table) {
             $table->id();
-            $table->string('ability');
-            $table->boolean('is_hidden');
-            $table->decimal('slot');
+            $table->string('front_default');
+            $table->string('front_female');
+            $table->string('front_shiny');
+            $table->string('front_shiny_female');
+            $table->string('back_default');
+            $table->string('back_female');
+            $table->string('back_shiny');
+            $table->string('back_shiny_female');
             $table->timestamps();
         });
     }
@@ -29,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('abilities');
+        Schema::dropIfExists('sprites');
     }
 };

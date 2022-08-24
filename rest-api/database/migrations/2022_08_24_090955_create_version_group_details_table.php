@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('abilities', function (Blueprint $table) {
+        Schema::create('version_group_details', function (Blueprint $table) {
             $table->id();
-            $table->string('ability');
-            $table->boolean('is_hidden');
-            $table->decimal('slot');
+            $table->string('move_learn_method');
+            $table->string('version_group');
+            $table->decimal('level_learned_at');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('abilities');
+        Schema::dropIfExists('version_group_details');
     }
 };
