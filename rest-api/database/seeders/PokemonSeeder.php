@@ -23,10 +23,11 @@ class PokemonSeeder extends Seeder
      */
     public function run()
     {
+        // Change path
         $json = file_get_contents("C:\Users\jonas\SynologyDrive\GIT\PokedexRestApi\pokemons.json");;
         $pokemons = json_decode($json, true);
 
-        //$pokemon = $pokemons[0];
+        //$pokemon = $pokemons[0]; implementation of one pokemon
         foreach ($pokemons as $pokemon){
             $newPokemon = Pokemon::query()->updateOrCreate([
                 'id' => $pokemon['id'],
