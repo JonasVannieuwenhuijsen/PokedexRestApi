@@ -9,6 +9,11 @@ class Move extends Model
 {
     use HasFactory;
 
+    protected $table = 'moves';
+
+    protected $fillable = [
+        'move'
+    ];
 
     public function version_group_details()
     {

@@ -9,6 +9,18 @@ class Pokemon extends Model
 {
     use HasFactory;
 
+    protected $table = 'pokemon';
+
+    protected $fillable = [
+        'id',
+        'name',
+        'height',
+        'weight',
+        'order',
+        'species',
+        'form'
+    ];
+
     public function abilities()
     {
         return $this->hasMany(Ability::class);

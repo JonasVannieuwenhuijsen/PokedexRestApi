@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Stat extends Model
 {
     use HasFactory;
+
+    protected $table = 'stats';
+
+    protected $fillable = [
+        'stat',
+        'base_stat',
+        'effort'
+    ];
 }

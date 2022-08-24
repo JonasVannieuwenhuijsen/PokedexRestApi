@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Ability extends Model
 {
     use HasFactory;
+
+    protected $table = 'abilities';
+
+    protected $fillable = [
+        'ability',
+        'is_hidden',
+        'slot'
+    ];
+
 }
