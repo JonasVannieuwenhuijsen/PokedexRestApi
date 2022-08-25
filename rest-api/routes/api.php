@@ -27,6 +27,7 @@ Route::controller(PokemonController::class)->group(function () {
     Route::get('/v1/pokemons/', 'index');
     Route::get('/v1/search', 'search');
     Route::get('/v1/addFromExternalApi/{nameOrID}', 'create');
+    Route::get('/v2/pokemons', 'paginated');
 });
 
 Route::controller(TeamController::class)->group(function () {
