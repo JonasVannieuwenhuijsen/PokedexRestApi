@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PokemonController;
+use App\Http\Controllers\TeamController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,12 @@ Route::controller(PokemonController::class)->group(function () {
     Route::get('/v1/pokemons/{id}', 'show');
     Route::get('/v1/pokemons/', 'index');
     Route::get('/v1/search', 'search');
+});
+
+Route::controller(TeamController::class)->group(function () {
+    Route::get('/v1/teams', 'index');
+    Route::post('/v1/teams', 'create');
+    Route::get('/v1/teams/{id}', 'show');
+    Route::post('/v1/teams/{id}', 'update');
+    Route::get('/v1/teams/delete/{id}', 'destroy');
 });
