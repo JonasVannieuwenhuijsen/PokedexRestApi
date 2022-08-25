@@ -15,6 +15,9 @@ use App\Models\Sprite;
 use App\Models\Type;
 use App\Models\Stat;
 
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 class PokemonController extends Controller
 {
     /**
@@ -326,6 +329,63 @@ class PokemonController extends Controller
 
     public function paginated(Request $request)
     {
+        $response = [];
+        $typesArray = [];
 
+        $pokemons = Pokemon::all();
+
+        $sort = $request->input('sort');
+        $limit = intval($request->input('limit'));
+        if($limit == null){
+            $limit = count($pokemons);
+        }
+
+        if($sort == 'id-desc'){
+            $pokemons = $pokemons->sortByDesc('id');
+        }elseif($sort == 'name-asc'){
+            $pokemons = $pokemons->sortBy('name');
+        }elseif($sort == 'name-desc'){
+            $pokemons = $pokemons->sortByDesc('name');
+        } elseif($sort == 'id-asc'){
+            $pokemons = $pokemons->sortBy('id');
+        }
+
+        foreach ($pokemons as $pokemon){
+            $sprite_front_default = DB::table('sprites')->where('pokemon_id', $pokemon['id'])->value('front_default');
+
+            $types = DB::table('types')->where('pokemon_id', $pokemon['id'])->get();
+            foreach($types as $type){
+                $newType = array("slot" => $type->slot, "type" => array("name" => $type->type));
+                array_push($typesArray, $newType);
+            }
+
+            $newPokemon = array( 
+                "id" => $pokemon['id'],
+                "name" => $pokemon['name'],
+                "sprites" => array(
+                    "front_default" => $sprite_front_default),
+                "types" => $typesArray,
+              ); 
+
+              array_push($response, $newPokemon);
+              $typesArray = [];
+        }
+
+        //dd($response);
+        $response = $this->paginate($response,$limit);
+        $response->withPath('/api/v2/pokemons');
+
+        return view('list',['pokemons'=>$response]);
     }
+
+    public function paginate($items, $perPage = 4, $page = null)
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $total = count($items);
+        $currentpage = $page;
+        $offset = ($currentpage * $perPage) - $perPage ;
+        $itemstoshow = array_slice($items , $offset , $perPage);
+        return new LengthAwarePaginator($itemstoshow ,$total ,$perPage);
+    }
+
 }
