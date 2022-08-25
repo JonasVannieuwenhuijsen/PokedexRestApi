@@ -27,3 +27,6 @@ PokedexRestApi is an Rest Api created by Jonas Vannieuwenhuijsen.
     - Database with preloaded pokemons
 - pokemons.json :
     - Json file with 151 pokemons for seeder (dont forget to update path of json file in seeder)
+
+## Database structure
+![alt text](https://github.com/JonasVannieuwenhuijsen/PokedexRestApi/blob/main/DatabaseStructure.png?raw=true)
