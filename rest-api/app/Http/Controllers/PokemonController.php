@@ -323,4 +323,9 @@ class PokemonController extends Controller
         
         }  
     }
+
+    public function paginated(Request $request)
+    {
+
+    }
 }
