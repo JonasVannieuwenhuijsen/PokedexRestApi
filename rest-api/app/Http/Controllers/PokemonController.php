@@ -3,8 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Pokemon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
+
+use App\Models\Pokemon;
+use App\Models\Ability;
+use App\Models\Move;
+use App\Models\Version_group_detail;
+use App\Models\Sprite;
+use App\Models\Type;
+use App\Models\Stat;
 
 class PokemonController extends Controller
 {
@@ -209,5 +218,109 @@ class PokemonController extends Controller
             "pokemons" => $response
          ],200);
 
+    }
+
+    /**
+     * Add new pokemon from external api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create($idOrName)
+    {
+
+        $response = Http::get('https://pokeapi.co/api/v2/pokemon/'. $idOrName . '/');
+        $responseBody = json_decode($response->getBody(), true);
+
+        $pokemon = Pokemon::find($responseBody['id']);
+
+        if($pokemon != null){
+            return response()->json([
+                "error" => "ERROR",
+                "error_message" => "Pokemon already in database"
+             ],404);
+        }else{
+            $newPokemon = Pokemon::query()->updateOrCreate([
+                'id' => $responseBody['id'],
+                'name' => $responseBody['name'],
+                'height' => $responseBody['height'],
+                'weight' => $responseBody['weight'],
+                'order' => $responseBody['order'],
+                'species' => $responseBody['species']['name'],
+                'form' => $responseBody['forms'][0]['name']
+            ]);
+
+            $pokemonById = Pokemon::find($responseBody['id']);
+
+            $abilities = $responseBody['abilities'];
+            foreach ($abilities as $ability){
+                $newAbility = new Ability([
+                    'ability' => $ability['ability']['name'],
+                    'is_hidden' => $ability['is_hidden'],
+                    'slot' => $ability['slot']
+                ]);
+                
+                $pokemonById->abilities()->save($newAbility);
+            }
+
+            $moves = $responseBody['moves'];
+            foreach ($moves as $move){
+                $newMove = new Move([
+                    'move' => $move['move']['name'],
+                ]);
+                
+                $pokemonById->moves()->save($newMove);
+
+                $version_group_details = $move['version_group_details'];
+                foreach ($version_group_details as $version_group_detail){
+                    $newVersion_group_detail = new Version_group_detail([
+                        'move_learn_method' => $version_group_detail['move_learn_method']['name'],
+                        'version_group' => $version_group_detail['version_group']['name'],
+                        'level_learned_at' => $version_group_detail['level_learned_at']
+                    ]);
+                    
+                    $newMove->version_group_details()->save($newVersion_group_detail);
+                }
+            }
+
+            $sprites = $responseBody['sprites'];
+            $newSprite = new Sprite([
+                'front_default' => $sprites['front_default'],
+                'front_female' => $sprites['front_female'],
+                'front_shiny' => $sprites['front_shiny'],
+                'front_shiny_female' => $sprites['front_shiny_female'],
+                'back_default' => $sprites['back_default'],
+                'back_female' => $sprites['back_female'],
+                'back_shiny' => $sprites['back_shiny'],
+                'back_shiny_female' => $sprites['back_shiny_female']
+            ]);
+            
+            $pokemonById->sprites()->save($newSprite);
+
+            $stats = $responseBody['stats'];
+            foreach ($stats as $stat){
+                $newStat = new Stat([
+                    'stat' => $stat['stat']['name'],
+                    'base_stat' => $stat['base_stat'],
+                    'effort' => $stat['effort']
+                ]);
+                
+                $pokemonById->stats()->save($newStat);
+            }
+
+            $types = $responseBody['types'];
+            foreach ($types as $type){
+                $newType = new Type([
+                    'type' => $type['type']['name'],
+                    'slot' => $type['slot']                    
+                ]);
+                
+                $pokemonById->types()->save($newType);
+            }
+
+            return response()->json([
+                "Successful operation" => 'Pokemon added to database'
+             ],200);
+        
+        }  
     }
 }
