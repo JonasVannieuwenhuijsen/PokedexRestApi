@@ -30,3 +30,5 @@ PokedexRestApi is an Rest Api created by Jonas Vannieuwenhuijsen.
 
 ## Database structure
 ![alt text](https://github.com/JonasVannieuwenhuijsen/PokedexRestApi/blob/main/DatabaseStructure.png?raw=true)
+
+All relationships of pokemon are 'hasMany' only the relationship between pokemon and sprite is 'hasOne'.
