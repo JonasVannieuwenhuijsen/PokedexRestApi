@@ -22,5 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Route::get('/api/v1/pokemons', "PokemonController@index");
 
 Route::controller(PokemonController::class)->group(function () {
-    Route::get('/v1/pokemons', 'index');
+    Route::get('/v1/pokemons/{id}', 'show');
+    Route::get('/v1/pokemons/', 'index');
+    Route::get('/v1/search', 'search');
 });
